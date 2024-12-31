@@ -72,7 +72,7 @@ export class ShipmentController {
       console.log(dd);
 
       const result = await shipmentservices.getShipmentAllDetailsById(req);
-      console.log("result=== >", result);
+      // console.log("result=== >", result);
 
       return sendResponse(res, responseCode.OK, result);
     } catch (error) {

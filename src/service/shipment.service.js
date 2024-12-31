@@ -341,7 +341,7 @@ export class ShipmentServices {
         },
       ]);
 
-      console.log("result :", result);
+      // console.log("result :", result);
       return result;
     } catch (error) {
       console.error(error);
@@ -355,7 +355,7 @@ export class ShipmentServices {
         {
           $match: {
             _id: new mongoose.Types.ObjectId(req.params.id),
-            deleted: false,
+            deleted: true,
           },
         },
         {
@@ -498,7 +498,7 @@ export class ShipmentServices {
         shipmentdate,
         expecteddate,
         senderId,
-        receiverInfo,
+        receiverId,
         deliveryAddress,
 
         contactPersonName,
@@ -549,7 +549,7 @@ export class ShipmentServices {
         shipmentdate,
         expecteddate,
         senderId,
-        receiverId: receiverInfo,
+        receiverId,
         deliveryAddress,
         package_contact_person_name: contactPersonName,
         package_contact_person_phone: contactPersonNumber,
