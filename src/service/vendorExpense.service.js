@@ -30,7 +30,7 @@ export class VendorExpenseServices {
         {
           $match: {
             created_by: new mongoose.Types.ObjectId(req.params.id),
-            deleted: false
+            deleted: false,
           },
         },
         {
@@ -94,7 +94,7 @@ export class VendorExpenseServices {
           },
         },
       ]);
-      console.log("result ============>", result);
+      console.log("result aya  ============>", result);
       return result;
     } catch (error) {
       console.error(error);

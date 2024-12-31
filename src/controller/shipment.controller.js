@@ -79,4 +79,45 @@ export class ShipmentController {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
     }
   }
+
+  async updateshipment(req, res) {
+    try {
+      const result = await shipmentservices.updateShipment(req);
+      return sendResponse(res, responseCode.OK, result);
+    } catch (error) {
+      console.error(error);
+      return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
+    }
+  }
+  async updateShipmentPackage(req, res) {
+    try {
+      const result = await shipmentservices.updateShipment(req);
+      return sendResponse(res, responseCode.OK, result);
+    } catch (error) {
+      console.error(error);
+      return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
+    }
+  }
+  async sendername(req, res) {
+    try {
+      const result = await shipmentservices.sendername(req);
+      console.log(result);
+
+      return sendResponse(res, responseCode.OK, result);
+    } catch (error) {
+      console.error(error);
+      return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
+    }
+  }
+  async deleteshipment(req, res) {
+    try {
+      const result = await shipmentservices.deleteshipment(req);
+      console.log(result);
+
+      return sendResponse(res, responseCode.OK, result);
+    } catch (error) {
+      console.error(error);
+      return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
+    }
+  }
 }

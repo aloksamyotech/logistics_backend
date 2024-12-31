@@ -96,4 +96,8 @@ router.get(
   shipment.getShipmentAllDetailsById
 );
 router.patch("/shipment/update_package/:id", shipment.updateShipmentPackage);
+router.put("/shipment/update_shipment/:id", shipment.updateshipment);
+router.get("/users/customer", shipment.sendername);
+router.delete("/shipment_delete/:id", shipment.deleteshipment);
+
 export default router;

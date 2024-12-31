@@ -3,7 +3,7 @@ import { generateToken } from "../core/common/auth.js";
 import { commonResponse } from "../core/constant/enum.js";
 import UserModel from "../model/user.model.js";
 import ShipmentModel from "../model/shipment.model.js";
-
+import mongoose from "mongoose";
 export class userServices extends HelperModules {
   async addUser(req) {
     try {
@@ -144,16 +144,29 @@ export class userServices extends HelperModules {
   async deleteUser(req) {
     try {
       console.log("req.params.id ==>", req.params.id);
+
+      // Validate and clean up the user ID
+      let userId = req.params.id.trim();
+
+      if (!mongoose.Types.ObjectId.isValid(userId)) {
+        throw error;
+      }
+
       const result = await UserModel.findByIdAndUpdate(
-        { _id: req.params.id },
-        {
-          $set: { deleted: true },
-        }
+        userId,
+        { $set: { deleted: true } },
+        { new: true }
       );
+
       console.log("result ==>", result);
+
+      if (!result) {
+        throw new Error("User not found");
+      }
+
       return result;
     } catch (error) {
-      console.log("Error Found =======>", error);
+      console.log("Error Found =======>", error.message);
       throw error;
     }
   }

@@ -38,7 +38,7 @@ const shipmentSchema = new Schema({
   package_transaction_type: {
     type: String,
     required: true,
-    enum: ["FullLoad", "PartLoad"],
+    enum: ["FullLoad", "PartLoad", "OtherType"],
     default: "FullLoad",
   },
 

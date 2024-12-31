@@ -3,6 +3,7 @@ import ShipmentVendorDetailsModel from "../model/shipmentVendorDetails.model.js"
 import ShipmentPackageModel from "../model/packages.model.js";
 import ShipmentInsuranceModel from "../model/insurance.model.js";
 import mongoose from "mongoose";
+import UserModel from "../model/user.model.js";
 export class ShipmentServices {
   async addShipment(req) {
     try {
@@ -487,6 +488,162 @@ export class ShipmentServices {
       return result;
     } catch (error) {
       console.error(error);
+      throw error;
+    }
+  }
+  async updateShipment(req) {
+    try {
+      const _id = req.params.id;
+      const {
+        shipmentdate,
+        expecteddate,
+        senderId,
+        receiverInfo,
+        deliveryAddress,
+
+        contactPersonName,
+        contactPersonNumber,
+        fullLoad,
+        package_pickup_address,
+        transport_driver_vehicledetails,
+
+        driverName,
+        driverNumber,
+        vehicleDetails,
+        userNotes,
+
+        vendor,
+        memoNumber,
+        commission,
+        cash,
+        total,
+        advance,
+
+        transportation,
+        handling,
+        halting,
+        insurance,
+        cartage,
+        overweight,
+        odcCharges,
+        taxPercent,
+        advancePaid,
+        discount,
+
+        total_tax,
+        total_amount,
+        total_balance,
+
+        remarks,
+        billToOption,
+        created_by,
+      } = req?.body;
+
+      console.log("req.body==========>", req.body);
+      console.log(package_pickup_address);
+
+      const existingShipment = await ShipmentModel.findById(_id);
+      if (!existingShipment) throw new Error("Shipment not found");
+
+      const fieldsToUpdate = {
+        shipmentdate,
+        expecteddate,
+        senderId,
+        receiverId: receiverInfo,
+        deliveryAddress,
+        package_contact_person_name: contactPersonName,
+        package_contact_person_phone: contactPersonNumber,
+        package_transaction_type: fullLoad,
+        package_pickup_address: package_pickup_address,
+        transport_driver_name: driverName,
+        transport_driver_phone: driverNumber,
+        transport_driver_vehicledetails: vehicleDetails,
+        usernote: userNotes,
+        charge_transportation: transportation,
+        charge_handling: handling,
+        charge_halting: halting,
+        charge_cartage: cartage,
+        charge_over_weight: overweight,
+        charge_insurance: insurance,
+        charge_odc: odcCharges,
+        charge_tax_percent: taxPercent,
+        charge_advance_paid: advancePaid,
+        discount,
+        total_tax,
+        total_amount,
+        total_balance,
+        remarks,
+        bill_to: billToOption,
+      };
+      console.log("sender Idddddddddddddddddd", senderId);
+
+      // Apply updates to fields
+      for (const field in fieldsToUpdate) {
+        if (fieldsToUpdate[field])
+          existingShipment[field] = fieldsToUpdate[field];
+      }
+
+      await existingShipment.save();
+      console.log("dataaaaaaaaa", existingShipment);
+
+      // Update Vendor Details if available
+      const shipmentVendorDetails = await ShipmentVendorDetailsModel.findOne({
+        shipmentId: _id,
+      });
+      if (shipmentVendorDetails) {
+        shipmentVendorDetails.vendorId =
+          vendor || shipmentVendorDetails.vendorId;
+        shipmentVendorDetails.memoNumber =
+          memoNumber || shipmentVendorDetails.memoNumber;
+        shipmentVendorDetails.commission =
+          commission || shipmentVendorDetails.commission;
+        shipmentVendorDetails.cash = cash || shipmentVendorDetails.cash;
+        shipmentVendorDetails.total = total || shipmentVendorDetails.total;
+        shipmentVendorDetails.advance =
+          advance || shipmentVendorDetails.advance;
+
+        await shipmentVendorDetails.save();
+      }
+
+      return {
+        message: "Shipment updated successfully",
+        shipment: existingShipment,
+      };
+    } catch (error) {
+      console.error("Error updating shipment:", error);
+      throw new Error("An error occurred while updating the shipment");
+    }
+  }
+  async sendername(req, res) {
+    try {
+      const result = await UserModel.find({ role: "Customer" });
+
+      if (result) {
+        console.log("data is coming", result);
+      } else {
+        console.log("something rong");
+      }
+      return result;
+    } catch (error) {
+      console.error("Error fetching sender names:", error);
+      throw error;
+    }
+  }
+  async deleteshipment(req) {
+    try {
+      const shipmentUpdateResult = await ShipmentModel.updateOne(
+        { _id: req.params.id },
+        {
+          $set: {
+            deleted: true,
+          },
+        }
+      );
+      console.log("deleted data", shipmentUpdateResult);
+
+      return shipmentUpdateResult;
+    } catch {
+      console.log("errorr comes ", error);
       throw error;
     }
   }

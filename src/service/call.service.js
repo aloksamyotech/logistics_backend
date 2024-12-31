@@ -30,7 +30,7 @@ export class CallServices {
         {
           $match: {
             created_by: new mongoose.Types.ObjectId(req.params.id),
-            deleted: false
+            deleted: false,
           },
         },
         {
