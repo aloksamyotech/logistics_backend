@@ -70,4 +70,14 @@ export class QuotesController {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
     }
   }
+  async getlanlet(req, res) {
+    try {
+      const result = await quoteservices.getlanlet(req);
+      console.log("result ===========>", result);
+
+      return sendResponse(res, responseCode.OK, result);
+    } catch (error) {
+      return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
+    }
+  }
 }

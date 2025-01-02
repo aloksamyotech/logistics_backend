@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import QuoteModel from "../model/quotes.model.js";
 import QuoteDetailsModel from "../model/quotesDetails.model.js";
+import { getCoordinates } from "../controller/calculation.js";
 
 export class QuotesServices {
   async addQuote(req) {
@@ -40,30 +41,41 @@ export class QuotesServices {
         advance,
         created_by,
         quoteId,
-      } = req?.body;
+      } = req?.body[0]; // Destructuring directly from req.body[0]
+
       console.log("req?.body ===>", req?.body[0]);
 
-      const addNewDetails = await QuoteDetailsModel({
-        quoteId: req?.body[0].quoteId,
-        from: req?.body[0].from,
-        to: req?.body[0].to,
-        description: req?.body[0].description,
-        size: req?.body[0].size,
-        weight: req?.body[0].weight,
-        ETA: req?.body[0].ETA,
-        rate: req?.body[0].rate,
-        advance: req?.body[0].advance,
-        created_by: req?.body[0].created_by,
+      // Fetch coordinates for 'from' and 'to' locations
+      const fromCoordinates = await getCoordinates(from);
+      const toCoordinates = await getCoordinates(to);
+
+      // Create the new quote details document including latitudes and longitudes
+      const addNewDetails = new QuoteDetailsModel({
+        quoteId,
+        from,
+        fromLatitude: fromCoordinates.lat, // Save latitude
+        fromLongitude: fromCoordinates.lng, // Save longitude
+        to,
+        toLatitude: toCoordinates.lat, // Save latitude
+        toLongitude: toCoordinates.lng, // Save longitude
+        description,
+        size,
+        weight,
+        ETA,
+        rate,
+        advance,
+        created_by,
       });
+
       console.log("addNewDetails ==========>", addNewDetails);
 
+      // Save the new document to the database and return the saved quote details
       return await addNewDetails.save();
     } catch (error) {
-      console.error(error);
+      console.error("Error in addQuoteDetails:", error);
       throw error;
     }
   }
-
   async getAllQuotes(req) {
     console.log("id ==>", req.params.id);
 
@@ -250,8 +262,8 @@ export class QuotesServices {
 
   async deleteQuoteById(req) {
     try {
-      console.log("req.params.id :",req.params.id);
-      
+      console.log("req.params.id :", req.params.id);
+
       const quoteUpdateResult = await QuoteModel.updateOne(
         { _id: req.params.id },
         {
@@ -272,7 +284,10 @@ export class QuotesServices {
         }
       );
 
-      console.log("quoteDetailsUpdateResult for delete :", quoteDetailsUpdateResult);
+      console.log(
+        "quoteDetailsUpdateResult for delete :",
+        quoteDetailsUpdateResult
+      );
 
       return {
         quoteUpdateResult,
@@ -281,6 +296,21 @@ export class QuotesServices {
     } catch (error) {
       console.error(error);
       throw error;
+    }
+  }
+  async getlanlet(req) {
+    try {
+      const { from, to } = req.params;
+      console.log("from", from, "to", to);
+
+      const result = await QuoteDetailsModel.findOne({ from, to });
+
+      if (result) {
+        console.log(result);
+      }
+      return result;
+    } catch (error) {
+      console.error("Error fetching coordinates:", error.message);
     }
   }
 }

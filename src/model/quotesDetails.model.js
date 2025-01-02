@@ -4,16 +4,28 @@ import { BaseSchema } from "../core/schema/base.schema.js";
 
 const quotesDetailsSchema = new Schema({
   ...BaseSchema.obj,
-  quoteId: {
-    type: mongoose.Types.ObjectId,
-    default: null,
-  },
   from: {
     type: String,
     required: true,
   },
+  fromLatitude: {
+    type: Number,
+    required: true,
+  },
+  fromLongitude: {
+    type: Number,
+    required: true,
+  },
   to: {
     type: String,
+    required: true,
+  },
+  toLatitude: {
+    type: Number,
+    required: true,
+  },
+  toLongitude: {
+    type: Number,
     required: true,
   },
   description: {
@@ -40,7 +52,14 @@ const quotesDetailsSchema = new Schema({
     type: Number,
     required: true,
   },
+  created_by: {
+    type: mongoose.Types.ObjectId,
+    required: true,
+  },
+  quoteId: {
+    type: mongoose.Types.ObjectId,
+    default: null,
+  },
 });
-
 const QuoteDetailsModel = mongoose.model("quotesdetail", quotesDetailsSchema);
 export default QuoteDetailsModel;

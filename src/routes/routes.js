@@ -9,6 +9,8 @@ import { QuotesController } from "../controller/quote.controller.js";
 import { ShipmentController } from "../controller/shipment.controller.js";
 import { ShipmentPackagesController } from "../controller/packages.controller.js";
 import { calculateDistance } from "../controller/distance.calculator.js";
+import latitude from "../controller/latitude.js";
+
 const user = new UserController();
 const price = new PriceController();
 const lead = new LeadController();
@@ -99,5 +101,7 @@ router.patch("/shipment/update_package/:id", shipment.updateShipmentPackage);
 router.put("/shipment/update_shipment/:id", shipment.updateshipment);
 router.get("/users/customer", shipment.sendername);
 router.delete("/shipment_delete/:id", shipment.deleteshipment);
+router.get("/getlatlen/:from/:to", quote.getlanlet);
+router.get("/get/:from", latitude);
 
 export default router;
