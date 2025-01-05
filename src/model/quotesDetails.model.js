@@ -60,6 +60,10 @@ const quotesDetailsSchema = new Schema({
     type: mongoose.Types.ObjectId,
     default: null,
   },
+  distance: {
+    type: Number,
+    required: true,
+  },
 });
 const QuoteDetailsModel = mongoose.model("quotesdetail", quotesDetailsSchema);
 export default QuoteDetailsModel;

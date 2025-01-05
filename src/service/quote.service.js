@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import QuoteModel from "../model/quotes.model.js";
 import QuoteDetailsModel from "../model/quotesDetails.model.js";
 import { getCoordinates } from "../controller/calculation.js";
-
+import { getRouteDistance } from "../controller/distance.calculator.js";
 export class QuotesServices {
   async addQuote(req) {
     try {
@@ -41,23 +41,27 @@ export class QuotesServices {
         advance,
         created_by,
         quoteId,
-      } = req?.body[0]; // Destructuring directly from req.body[0]
+      } = req?.body[0];
 
       console.log("req?.body ===>", req?.body[0]);
 
-      // Fetch coordinates for 'from' and 'to' locations
+      const { distanceInKilometers } = await getRouteDistance(
+        from,
+        to,
+        "driving-car"
+      );
+
       const fromCoordinates = await getCoordinates(from);
       const toCoordinates = await getCoordinates(to);
 
-      // Create the new quote details document including latitudes and longitudes
       const addNewDetails = new QuoteDetailsModel({
         quoteId,
         from,
-        fromLatitude: fromCoordinates.lat, // Save latitude
-        fromLongitude: fromCoordinates.lng, // Save longitude
+        fromLatitude: fromCoordinates.lat,
+        fromLongitude: fromCoordinates.lng,
         to,
-        toLatitude: toCoordinates.lat, // Save latitude
-        toLongitude: toCoordinates.lng, // Save longitude
+        toLatitude: toCoordinates.lat,
+        toLongitude: toCoordinates.lng,
         description,
         size,
         weight,
@@ -65,17 +69,18 @@ export class QuotesServices {
         rate,
         advance,
         created_by,
+        distance: distanceInKilometers,
       });
 
       console.log("addNewDetails ==========>", addNewDetails);
 
-      // Save the new document to the database and return the saved quote details
       return await addNewDetails.save();
     } catch (error) {
       console.error("Error in addQuoteDetails:", error);
       throw error;
     }
   }
+
   async getAllQuotes(req) {
     console.log("id ==>", req.params.id);
 
@@ -302,11 +307,12 @@ export class QuotesServices {
     try {
       const { from, to } = req.params;
       console.log("from", from, "to", to);
+      console.log("from is coming or not ", from);
 
       const result = await QuoteDetailsModel.findOne({ from, to });
 
       if (result) {
-        console.log(result);
+        console.log("result of ger latitude", result);
       }
       return result;
     } catch (error) {

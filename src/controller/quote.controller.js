@@ -73,7 +73,7 @@ export class QuotesController {
   async getlanlet(req, res) {
     try {
       const result = await quoteservices.getlanlet(req);
-      console.log("result ===========>", result);
+      console.log("result  okk ===========>", result);
 
       return sendResponse(res, responseCode.OK, result);
     } catch (error) {
