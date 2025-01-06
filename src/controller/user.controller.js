@@ -76,4 +76,13 @@ export class UserController {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
     }
   }
+  async countCustomer(req, res) {
+    try {
+      const result = await userservices.countCustomer(req);
+      return sendResponse(res, responseCode.OK, result);
+    } catch (error) {
+      console.error(error);
+      return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
+    }
+  }
 }

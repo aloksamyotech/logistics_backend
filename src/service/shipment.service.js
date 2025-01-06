@@ -241,7 +241,6 @@ export class ShipmentServices {
 
   async getAllShipmentDetails(req) {
     const { id } = req.params;
-    console.log("iddd", id);
 
     try {
       const result = await ShipmentModel.aggregate([
@@ -340,6 +339,8 @@ export class ShipmentServices {
           },
         },
       ]);
+      // const resultt = result.length;
+      // console.log("length ", resultt);
 
       // console.log("result :", result);
       return result;
@@ -584,9 +585,7 @@ export class ShipmentServices {
       }
 
       await existingShipment.save();
-      console.log("dataaaaaaaaa", existingShipment);
 
-      // Update Vendor Details if available
       const shipmentVendorDetails = await ShipmentVendorDetailsModel.findOne({
         shipmentId: _id,
       });
@@ -644,6 +643,23 @@ export class ShipmentServices {
       return shipmentUpdateResult;
     } catch {
       console.log("errorr comes ", error);
+      throw error;
+    }
+  }
+  async totalshipment(req, res) {
+    try {
+      const result = await ShipmentModel.find();
+      const total = result?.length || 0;
+
+      if (result?.length > 0) {
+        console.log("Data is coming:", result);
+      } else {
+        console.log("No data found.");
+      }
+
+      return total;
+    } catch (error) {
+      console.error("Error fetching shipments:", error);
       throw error;
     }
   }

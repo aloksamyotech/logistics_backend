@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const OPENCAGE_API_KEY = "49760cf79bfa4dbc81f34bcf440d3373"; // Replace with your API Key
+const OPENCAGE_API_KEY = process.env.OPENCAGE_API_KEY;
 
 export const getCoordinates = async (location) => {
   if (!location) {

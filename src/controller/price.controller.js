@@ -51,4 +51,13 @@ export class PriceController {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
     }
   }
+  async calculatePrice(req, res) {
+    try {
+      const result = await priceservices.calculatePrice(req);
+      return sendResponse(res, responseCode.OK, result);
+    } catch (error) {
+      console.error(error);
+      return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
+    }
+  }
 }

@@ -1,4 +1,5 @@
 import PriceModel from "../model/price.model.js";
+import weightPriceModel from "../model/weight.model.js";
 
 export class PriceServices {
   async addPrice(req) {
@@ -69,6 +70,47 @@ export class PriceServices {
       return result;
     } catch (error) {
       console.log("Error Found =======>", error);
+      throw error;
+    }
+  }
+
+  async calculatePrice(req) {
+    try {
+      const { distance, weight } = req.body;
+
+      if (!distance || !weight) {
+        throw new Error("Both distance and weight are required.");
+      }
+
+      const distancePrice = await PriceModel.findOne({
+        from: { $lte: distance },
+        to: { $gte: distance },
+        deleted: false,
+      });
+
+      if (!distancePrice) {
+        throw new Error("No price found for the given distance.");
+      }
+
+      const weightPrice = await weightPriceModel.findOne({
+        min_weight: { $lte: weight },
+        max_weight: { $gte: weight },
+        deleted: false,
+      });
+
+      if (!weightPrice) {
+        throw new Error("No price found for the given weight.");
+      }
+
+      const totalPrice = distancePrice.lcvrate + weightPrice.price;
+
+      return {
+        distancePrice: distancePrice.lcvrate,
+        weightPrice: weightPrice.price,
+        totalPrice: totalPrice,
+      };
+    } catch (error) {
+      console.error("Error calculating price:", error);
       throw error;
     }
   }

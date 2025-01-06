@@ -170,4 +170,21 @@ export class userServices extends HelperModules {
       throw error;
     }
   }
+  async countCustomer(req, res) {
+    try {
+      const customers = req.body;
+      const result = await UserModel.find();
+      const total = result.length;
+
+      if (result) {
+        console.log("data is coming", result);
+      } else {
+        console.log("something rong");
+      }
+      return total;
+    } catch (error) {
+      console.error("Error fetching sender names:", error);
+      throw error;
+    }
+  }
 }

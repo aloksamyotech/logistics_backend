@@ -10,6 +10,7 @@ import { ShipmentController } from "../controller/shipment.controller.js";
 import { ShipmentPackagesController } from "../controller/packages.controller.js";
 import { calculateDistance } from "../controller/distance.calculator.js";
 import latitude from "../controller/latitude.js";
+import { WeightPriceController } from "../controller/weightprice.controller.js";
 
 const user = new UserController();
 const price = new PriceController();
@@ -19,6 +20,7 @@ const call = new CallController();
 const vendorexpense = new VendorExpenseController();
 const quote = new QuotesController();
 const shipment = new ShipmentController();
+const weightPriceController = new WeightPriceController();
 
 const router = express.Router();
 router.get("/user/getalluser", user.done);
@@ -29,11 +31,18 @@ router.patch("/user/updateone/:id", user.updateUser);
 router.get("/user/getuser/:id", user.getUserDataById);
 router.delete("/user/deteleuser/:id", user.deleteUser);
 router.post("/user/login", user.loginUser);
+router.get("/counterCustomer", user.countCustomer);
 
 router.post("/price/add", price.add);
 router.get("/price/getallprice/:id", price.getAllPrices);
 router.patch("/price/updateprice/:id", price.updatePrice);
 router.delete("/price/deleteprice/:id", price.deletePrice);
+router.post("/calculate_price", price.calculatePrice);
+
+router.post("/weightprice/add", weightPriceController.add);
+router.get("/weightprice/getallweightprice/:id", weightPriceController.getAll);
+router.patch("/weightprice/update/:id", weightPriceController.update);
+router.delete("/weightprice/delete/:id", weightPriceController.delete);
 
 router.post("/lead/add", lead.addLead);
 router.get("/lead/getallleads/:id", lead.getAllLeads);
@@ -85,6 +94,7 @@ router.get("/quote/getallquotes/:id", quote.getAllQuotes);
 router.get("/quote/getquotedetails/:id", quote.getQuoteDetailsById);
 router.patch("/quote/updatequotedetails/:id", quote.updateQuoteById);
 router.delete("/quote/deletequotedetails/:id", quote.deleteQuoteById);
+// router.get("/countquote", quote.countquote);
 
 router.post("/shipment/add", shipment.addShipment);
 router.post("/shipment/packages/add", shipment.addShipmentPackages);
@@ -97,6 +107,7 @@ router.get(
   "/shipment/shipments_details/:id",
   shipment.getShipmentAllDetailsById
 );
+router.get("/total_shipment", shipment.totalshipment);
 router.patch("/shipment/update_package/:id", shipment.updateShipmentPackage);
 router.put("/shipment/update_shipment/:id", shipment.updateshipment);
 router.get("/users/customer", shipment.sendername);
