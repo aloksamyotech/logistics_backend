@@ -94,7 +94,7 @@ router.get("/quote/getallquotes/:id", quote.getAllQuotes);
 router.get("/quote/getquotedetails/:id", quote.getQuoteDetailsById);
 router.patch("/quote/updatequotedetails/:id", quote.updateQuoteById);
 router.delete("/quote/deletequotedetails/:id", quote.deleteQuoteById);
-// router.get("/countquote", quote.countquote);
+router.get("/countquote", quote.getcount);
 
 router.post("/shipment/add", shipment.addShipment);
 router.post("/shipment/packages/add", shipment.addShipmentPackages);

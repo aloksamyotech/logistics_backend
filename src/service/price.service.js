@@ -76,15 +76,16 @@ export class PriceServices {
 
   async calculatePrice(req) {
     try {
-      const { distance, weight } = req.body;
+      const { distance1, weight } = req.body;
+      console.log("distance1", distance1);
 
-      if (!distance || !weight) {
+      if (!distance1 || !weight) {
         throw new Error("Both distance and weight are required.");
       }
 
       const distancePrice = await PriceModel.findOne({
-        from: { $lte: distance },
-        to: { $gte: distance },
+        from: { $lte: distance1 },
+        to: { $gte: distance1 },
         deleted: false,
       });
 
@@ -103,6 +104,7 @@ export class PriceServices {
       }
 
       const totalPrice = distancePrice.lcvrate + weightPrice.price;
+      console.log(totalPrice, "total price is coming ");
 
       return {
         distancePrice: distancePrice.lcvrate,

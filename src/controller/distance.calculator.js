@@ -1,7 +1,6 @@
 import axios from "axios";
 import { getCoordinates } from "./calculation.js";
 
-// OpenRouteService API Key (replace with your own)
 const OPENROUTESERVICE_API_KEY =
   "5b3ce3597851110001cf6248693f149878494357870268609ae029ec";
 
@@ -16,8 +15,8 @@ export const getRouteDistance = async (from, to, mode = "driving-car") => {
 
     const body = {
       coordinates: [
-        [fromCoords.lng, fromCoords.lat],
-        [toCoords.lng, toCoords.lat],
+        [fromCoords?.lng, fromCoords?.lat],
+        [toCoords?.lng, toCoords?.lat],
       ],
     };
 
@@ -25,11 +24,12 @@ export const getRouteDistance = async (from, to, mode = "driving-car") => {
       headers: { "Content-Type": "application/json" },
     });
 
-    if (response.data.routes && response.data.routes[0]) {
-      const route = response.data.routes[0];
-      const distance = route.summary.distance;
+    const route = response?.data?.routes?.[0];
+    if (route) {
+      const distance = route?.summary?.distance;
       const distanceInKilometers = distance / 1000;
       console.log("distance which is coming", distanceInKilometers, distance);
+
       // Convert to kilometers
       const distanceInMiles = distanceInKilometers * 0.621371;
 
@@ -38,7 +38,7 @@ export const getRouteDistance = async (from, to, mode = "driving-car") => {
       throw new Error("Unable to calculate route distance.");
     }
   } catch (error) {
-    console.error("Error fetching route distance:", error.message);
+    console.error("Error fetching route distance:", error?.message);
     throw new Error("Unable to calculate route distance.");
   }
 };
@@ -51,7 +51,9 @@ const calculateDistance = async (req, res) => {
 
     res.json(distance);
   } catch (error) {
-    res.status(500).json({ error: "Unable to calculate distance" });
+    res
+      .status(500)
+      .json({ error: error?.message || "Unable to calculate distance" });
   }
 };
 

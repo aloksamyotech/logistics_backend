@@ -3,6 +3,8 @@ import QuoteModel from "../model/quotes.model.js";
 import QuoteDetailsModel from "../model/quotesDetails.model.js";
 import { getCoordinates } from "../controller/calculation.js";
 import { getRouteDistance } from "../controller/distance.calculator.js";
+import { PriceServices } from "./price.service.js";
+const Priceservies = new PriceServices();
 export class QuotesServices {
   async addQuote(req) {
     try {
@@ -41,7 +43,9 @@ export class QuotesServices {
         advance,
         created_by,
         quoteId,
+        totalPrice,
       } = req?.body[0];
+      console.log(totalPrice);
 
       console.log("req?.body ===>", req?.body[0]);
 
@@ -70,10 +74,8 @@ export class QuotesServices {
         advance,
         created_by,
         distance: distanceInKilometers,
+        totalPrice,
       });
-
-      console.log("addNewDetails ==========>", addNewDetails);
-
       return await addNewDetails.save();
     } catch (error) {
       console.error("Error in addQuoteDetails:", error);
@@ -82,8 +84,6 @@ export class QuotesServices {
   }
 
   async getAllQuotes(req) {
-    console.log("id ==>", req.params.id);
-
     try {
       const result = await QuoteModel.aggregate([
         {
@@ -133,7 +133,9 @@ export class QuotesServices {
           },
         },
       ]);
-      console.log("result ============>", result);
+      // console.log("result ============>", result.length);
+      const count = result.length;
+      console.log(count);
 
       return result;
     } catch (error) {
@@ -192,8 +194,13 @@ export class QuotesServices {
           },
         },
       ]);
-      console.log("result ============>", result);
-      return result;
+      const count = result.length;
+      console.log("count", count);
+
+      return {
+        result,
+        count,
+      };
     } catch (error) {
       console.error(error);
       throw error;
@@ -317,6 +324,16 @@ export class QuotesServices {
       return result;
     } catch (error) {
       console.error("Error fetching coordinates:", error.message);
+    }
+  }
+
+  async getcount(req) {
+    try {
+      const result = await QuoteDetailsModel.find();
+      const count = result.length;
+      return count;
+    } catch (error) {
+      console.error(error);
     }
   }
 }

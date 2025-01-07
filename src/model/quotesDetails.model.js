@@ -64,6 +64,9 @@ const quotesDetailsSchema = new Schema({
     type: Number,
     required: true,
   },
+
+  totalPrice: { type: Number, required: true },
 });
+
 const QuoteDetailsModel = mongoose.model("quotesdetail", quotesDetailsSchema);
 export default QuoteDetailsModel;

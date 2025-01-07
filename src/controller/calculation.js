@@ -14,15 +14,16 @@ export const getCoordinates = async (location) => {
   try {
     const response = await axios.get(url);
 
-    if (response.data.results.length > 0) {
-      const { lat, lng } = response.data.results[0].geometry;
+    const results = response?.data?.results;
+    if (results?.length > 0) {
+      const { lat, lng } = results[0]?.geometry || {};
       console.log(`Coordinates for ${location}:`, { lat, lng });
       return { lat, lng };
     } else {
       throw new Error(`Location "${location}" not found.`);
     }
   } catch (error) {
-    console.error("Error in getCoordinates:", error.message);
+    console.error("Error in getCoordinates:", error?.message);
     throw new Error("Unable to fetch coordinates from OpenCage API.");
   }
 };
