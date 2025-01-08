@@ -8,8 +8,6 @@ export class LeadController {
   async addLead(req, res) {
     try {
       const result = await leadservices.addLead(req);
-      console.log("result ===>", result);
-
       return sendResponse(res, responseCode.CREATED, result);
     } catch (error) {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);

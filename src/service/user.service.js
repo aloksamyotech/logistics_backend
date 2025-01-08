@@ -7,8 +7,6 @@ import mongoose from "mongoose";
 export class userServices extends HelperModules {
   async addUser(req) {
     try {
-      console.log("req.body data =======>", req.body);
-
       const {
         email,
         password,
@@ -24,8 +22,6 @@ export class userServices extends HelperModules {
       } = req?.body;
       const hashpassword = await this.encrypt(password);
 
-      console.log("hashpassword =======>", hashpassword);
-
       const user = await UserModel({
         email: email,
         password: hashpassword,
@@ -39,7 +35,7 @@ export class userServices extends HelperModules {
         role: role,
         created_by: created_by,
       });
-      console.log("user ========>", user);
+
       return await user.save();
     } catch (error) {
       console.log("Error Found =======>", error);
@@ -60,17 +56,6 @@ export class userServices extends HelperModules {
   }
   async done(req) {
     try {
-      // const result = await ShipmentModel.aggregate([
-      //   {
-      //     $lookup: {
-      //       from: "users",
-      //       localField: "senderId",
-      //       foreignField: "_id",
-      //       as: "customerdata1",
-      //     },
-      //   },
-      // ]);
-
       return await UserModel.find();
       // return result;
     } catch (error) {
@@ -81,24 +66,20 @@ export class userServices extends HelperModules {
   async loginUser(req) {
     try {
       const { email, password } = req?.body;
-      console.log("req?.body =====>", req?.body);
 
       const user = await UserModel.findOne({ email: email });
-      console.log("user ===>", user);
 
       if (!user) {
         throw new Error(commonResponse.UserNotFound);
       }
 
       const isPasswordCorrect = await this.decrypt(password, user.password);
-      console.log("isPasswordCorrect ===>", isPasswordCorrect);
 
       if (!isPasswordCorrect) {
         throw new Error(commonResponse.InvalidCredential);
       }
 
       const Token = await generateToken(user);
-      console.log("token ==>", Token);
 
       return { user: user, token: Token };
     } catch (error) {
@@ -109,8 +90,6 @@ export class userServices extends HelperModules {
 
   async updateUser(req) {
     try {
-      console.log("req.params.id ==>", req.params.id);
-
       const result = await UserModel.updateOne(
         { _id: req.params.id },
         {
@@ -131,9 +110,8 @@ export class userServices extends HelperModules {
 
   async getUserDataById(req) {
     try {
-      console.log("req.params.id ==>", req.params.id);
       const result = await UserModel.findById({ _id: req.params.id });
-      console.log("result ==>", result);
+
       return result;
     } catch (error) {
       console.log("Error Found =======>", error);
@@ -143,8 +121,6 @@ export class userServices extends HelperModules {
 
   async deleteUser(req) {
     try {
-      console.log("req.params.id ==>", req.params.id);
-
       // Validate and clean up the user ID
       let userId = req.params.id.trim();
 
@@ -157,8 +133,6 @@ export class userServices extends HelperModules {
         { $set: { deleted: true } },
         { new: true }
       );
-
-      console.log("result ==>", result);
 
       if (!result) {
         throw new Error("User not found");
@@ -176,11 +150,6 @@ export class userServices extends HelperModules {
       const result = await UserModel.find();
       const total = result.length;
 
-      if (result) {
-        console.log("data is coming", result);
-      } else {
-        console.log("something rong");
-      }
       return total;
     } catch (error) {
       console.error("Error fetching sender names:", error);

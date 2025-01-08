@@ -12,7 +12,6 @@ export class PriceServices {
         opentruckrate: openTruck,
         created_by: created_by,
       });
-      console.log("newPrice =====>", newPrice);
 
       return await newPrice.save();
     } catch (error) {
@@ -27,7 +26,6 @@ export class PriceServices {
         created_by: req.params.id,
         deleted: false,
       });
-      console.log("result ==>", result);
 
       return result;
     } catch (error) {
@@ -59,14 +57,13 @@ export class PriceServices {
 
   async deletePrice(req) {
     try {
-      console.log("req.params.id ==>", req.params.id);
       const result = await PriceModel.findByIdAndUpdate(
         { _id: req.params.id },
         {
           $set: { deleted: true },
         }
       );
-      console.log("result ==>", result);
+
       return result;
     } catch (error) {
       console.log("Error Found =======>", error);
@@ -77,7 +74,6 @@ export class PriceServices {
   async calculatePrice(req) {
     try {
       const { distance1, weight } = req.body;
-      console.log("distance1", distance1);
 
       if (!distance1 || !weight) {
         throw new Error("Both distance and weight are required.");
@@ -104,7 +100,6 @@ export class PriceServices {
       }
 
       const totalPrice = distancePrice.lcvrate + weightPrice.price;
-      console.log(totalPrice, "total price is coming ");
 
       return {
         distancePrice: distancePrice.lcvrate,

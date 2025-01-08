@@ -8,7 +8,6 @@ export class QuotesController {
   async addQuote(req, res) {
     try {
       const result = await quoteservices.addQuote(req);
-      console.log("result ===========>", result);
 
       return sendResponse(res, responseCode.CREATED, result);
     } catch (error) {
@@ -19,8 +18,6 @@ export class QuotesController {
   async addQuoteDetails(req, res) {
     try {
       const result = await quoteservices.addQuoteDetails(req);
-      console.log("result ===========>", result);
-
       return sendResponse(res, responseCode.CREATED, result);
     } catch (error) {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
@@ -30,8 +27,6 @@ export class QuotesController {
   async getAllQuotes(req, res) {
     try {
       const result = await quoteservices.getAllQuotes(req);
-      console.log("result ===========working>", result);
-
       return sendResponse(res, responseCode.OK, result);
     } catch (error) {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
@@ -41,8 +36,6 @@ export class QuotesController {
   async getQuoteDetailsById(req, res) {
     try {
       const result = await quoteservices.getQuoteDetailsById(req);
-      console.log("result =========== >", result);
-
       return sendResponse(res, responseCode.OK, result);
     } catch (error) {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
@@ -52,8 +45,6 @@ export class QuotesController {
   async updateQuoteById(req, res) {
     try {
       const result = await quoteservices.updateQuoteById(req);
-      console.log("result ===========>", result);
-
       return sendResponse(res, responseCode.OK, result);
     } catch (error) {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
@@ -63,8 +54,6 @@ export class QuotesController {
   async deleteQuoteById(req, res) {
     try {
       const result = await quoteservices.deleteQuoteById(req);
-      console.log("result ===========>", result);
-
       return sendResponse(res, responseCode.OK, result);
     } catch (error) {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
@@ -73,8 +62,6 @@ export class QuotesController {
   async getlanlet(req, res) {
     try {
       const result = await quoteservices.getlanlet(req);
-      console.log("result  okk ===========>", result);
-
       return sendResponse(res, responseCode.OK, result);
     } catch (error) {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
@@ -84,8 +71,6 @@ export class QuotesController {
   async getcount(req, res) {
     try {
       const result = await quoteservices.getcount(req);
-      console.log("result  okk ===========>", result);
-
       return sendResponse(res, responseCode.OK, result);
     } catch (error) {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);

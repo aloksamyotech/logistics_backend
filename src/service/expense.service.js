@@ -11,8 +11,6 @@ export class ExpenseServices {
         description: description,
         created_by: created_by,
       });
-      console.log("addCategory =====>", addCategory);
-
       return await addCategory.save();
     } catch (error) {
       console.error(error);
@@ -21,8 +19,6 @@ export class ExpenseServices {
   }
 
   async addExpense(req) {
-    // console.log("expense category id ===>", req.params.id);
-
     try {
       const { category, name, note, date, amount, created_by } = req?.body;
       const addExpense = await ExpenseModel({
@@ -34,7 +30,6 @@ export class ExpenseServices {
         created_by: created_by,
       });
 
-      console.log("addExpense ====>", addExpense);
       return await addExpense.save();
     } catch (error) {
       console.error(error);
@@ -76,7 +71,7 @@ export class ExpenseServices {
           },
         },
       ]);
-      console.log("result =============>", result);
+
       return result;
     } catch (error) {
       console.error(error);
@@ -160,8 +155,6 @@ export class ExpenseServices {
   }
 
   async updateExpenseCategoryData(req) {
-    console.log("updateExpenseCategoryData id ==>", req.params.id);
-
     try {
       const result = await ExpenseCategoryModel.updateOne(
         {

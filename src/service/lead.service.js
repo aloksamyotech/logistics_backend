@@ -3,8 +3,6 @@ import LeadModel from "../model/lead.model.js";
 export class LeadServices {
   async addLead(req) {
     try {
-      console.log("req.body ==>", req?.body);
-
       const {
         name,
         email,
@@ -46,8 +44,6 @@ export class LeadServices {
         dimension: dimension,
         created_by: created_by,
       });
-
-      console.log("newLead ====>", newLead);
       return await newLead.save();
     } catch (error) {
       console.error(error);
@@ -61,7 +57,7 @@ export class LeadServices {
         created_by: req.params.id,
         deleted: false,
       });
-      console.log("result==>", result);
+
       return result;
     } catch (error) {
       console.error(error);
@@ -71,9 +67,8 @@ export class LeadServices {
 
   async getLeadDataById(req) {
     try {
-      console.log("req.params.id ==>", req.params.id);
       const result = await LeadModel.findById({ _id: req.params.id });
-      console.log("result ==>", result);
+
       return result;
     } catch (error) {
       console.log("Error Found =======>", error);
@@ -83,8 +78,6 @@ export class LeadServices {
 
   async updateLead(req) {
     try {
-      console.log("req.params.id ==>", req.params.id);
-
       const result = await LeadModel.updateOne(
         { _id: req.params.id },
         {
@@ -118,8 +111,6 @@ export class LeadServices {
 
   async deleteLead(req) {
     try {
-      console.log("req.params.id ==>", req.params.id);
-
       const result = await LeadModel.updateOne(
         { _id: req.params.id },
         {

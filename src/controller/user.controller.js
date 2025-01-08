@@ -7,8 +7,6 @@ const userservices = new userServices();
 
 export class UserController {
   async add(req, res) {
-    console.log("In UserController add ==>", req.body);
-
     try {
       const result = await userservices.addUser(req);
       return sendResponse(res, responseCode.CREATED, result);
@@ -79,7 +77,7 @@ export class UserController {
   async countCustomer(req, res) {
     try {
       const result = await userservices.countCustomer(req);
-      return sendResponse(res, responseCode.OK, result);
+      return sendResponse(res, responseCode.OK);
     } catch (error) {
       console.error(error);
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);

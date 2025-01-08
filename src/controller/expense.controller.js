@@ -8,8 +8,6 @@ export class ExpenseController {
   async addExpenseCategory(req, res) {
     try {
       const result = await expenseservices.addExpenseCategory(req);
-      console.log("result =========>", result);
-
       return sendResponse(res, responseCode.CREATED, result);
     } catch (error) {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
@@ -18,10 +16,7 @@ export class ExpenseController {
 
   async addExpense(req, res) {
     try {
-      // console.log("req.params.id ======>", req.params.id);
       const result = await expenseservices.addExpense(req);
-      console.log("result =========>", result);
-
       return sendResponse(res, responseCode.CREATED, result);
     } catch (error) {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
@@ -49,9 +44,6 @@ export class ExpenseController {
   async getOneExpenseData(req, res) {
     try {
       const result = await expenseservices.getOneExpenseData(req);
-      console.log("here getOneExpenseData ===>",result);
-      
-
       return sendResponse(res, responseCode.OK, result);
     } catch (error) {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
@@ -61,8 +53,6 @@ export class ExpenseController {
   async updateExpenseData(req, res) {
     try {
       const result = await expenseservices.updateExpenseData(req);
-      console.log("result ==>",result);
-      
       return sendResponse(res, responseCode.OK, result);
     } catch (error) {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
@@ -86,5 +76,4 @@ export class ExpenseController {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
     }
   }
-
 }

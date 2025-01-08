@@ -1,9 +1,8 @@
 const latitude = async (req, res) => {
   try {
-    const { from, to } = req.params.body; // Use req.body for POST requests
+    const { from, to } = req.params.body;
     console.log(from.req.body);
 
-    // Check if 'from' and 'to' are provided
     if (!from || !to) {
       console.log("Error: Missing 'from' or 'to' in body.");
       return res.status(400).json({
@@ -11,10 +10,8 @@ const latitude = async (req, res) => {
       });
     }
 
-    // Log received values for debugging
     console.log("Received body data:", { from, to });
 
-    // Search for the entry matching both `from` and `to`
     const result = await QuoteDetailsModel.findOne({ from, to });
 
     if (result) {

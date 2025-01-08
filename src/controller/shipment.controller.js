@@ -10,8 +10,6 @@ export class ShipmentController {
   async addShipment(req, res) {
     try {
       const result = await shipmentservices.addShipment(req);
-      console.log("result ============>", result);
-
       return sendResponse(res, responseCode.CREATED, result);
     } catch (error) {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
@@ -21,8 +19,6 @@ export class ShipmentController {
   async addShipmentInsurance(req, res) {
     try {
       const result = await shipmentservices.addShipmentInsurance(req);
-      console.log("result ============>", result);
-
       return sendResponse(res, responseCode.CREATED, result);
     } catch (error) {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
@@ -32,8 +28,6 @@ export class ShipmentController {
   async addShipmentPackages(req, res) {
     try {
       const result = await shipmentservices.addShipmentPackages(req);
-      console.log("result===>", result);
-
       return sendResponse(res, responseCode.CREATED, result);
     } catch (error) {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
@@ -43,8 +37,6 @@ export class ShipmentController {
   async updateShipmentPackage(req, res) {
     try {
       const result = await shipmentservices.updateShipmentPackage(req);
-      console.log("result ============>", result);
-
       return sendResponse(res, responseCode.OK, result);
     } catch (error) {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
@@ -55,9 +47,7 @@ export class ShipmentController {
     let { a } = req.params.id;
 
     try {
-      // const shipments = await ShipmentModel.find();
       const result = await shipmentservices.getAllShipmentDetails(req);
-      console.log("------comes", result);
 
       return sendResponse(res, responseCode.OK, result);
     } catch (error) {
@@ -67,12 +57,10 @@ export class ShipmentController {
 
   async getShipmentAllDetailsById(req, res) {
     try {
-      console.log(" data   ", req.params);
       let dd = req.params;
       console.log(dd);
 
       const result = await shipmentservices.getShipmentAllDetailsById(req);
-      // console.log("result=== >", result);
 
       return sendResponse(res, responseCode.OK, result);
     } catch (error) {
@@ -101,7 +89,6 @@ export class ShipmentController {
   async sendername(req, res) {
     try {
       const result = await shipmentservices.sendername(req);
-      console.log(result);
 
       return sendResponse(res, responseCode.OK, result);
     } catch (error) {
@@ -112,7 +99,6 @@ export class ShipmentController {
   async deleteshipment(req, res) {
     try {
       const result = await shipmentservices.deleteshipment(req);
-      console.log(result);
 
       return sendResponse(res, responseCode.OK, result);
     } catch (error) {
@@ -123,8 +109,6 @@ export class ShipmentController {
   async totalshipment(req, res) {
     try {
       const result = await shipmentservices.totalshipment(req);
-      console.log(result);
-
       return sendResponse(res, responseCode.OK, result);
     } catch (error) {
       console.error(error);

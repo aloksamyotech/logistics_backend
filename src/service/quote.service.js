@@ -12,9 +12,6 @@ export class QuotesServices {
 
       const timestamp = Date.now();
       const quotationNo = `GLQ${String(timestamp).slice(-4)}`;
-      console.log("timestamp ========>", timestamp);
-      console.log("quotationNo ========>", quotationNo);
-
       const addNew = await QuoteModel({
         customer: customer,
         date: date,
@@ -22,7 +19,7 @@ export class QuotesServices {
         quotationNo: quotationNo,
         created_by: created_by,
       });
-      console.log("this is ======> addNew ==========>", addNew);
+
       return await addNew.save();
     } catch (error) {
       console.error(error);
@@ -46,8 +43,6 @@ export class QuotesServices {
         totalPrice,
       } = req?.body[0];
       console.log(totalPrice);
-
-      console.log("req?.body ===>", req?.body[0]);
 
       const { distanceInKilometers } = await getRouteDistance(
         from,
@@ -145,7 +140,6 @@ export class QuotesServices {
   }
 
   async getQuoteDetailsById(req) {
-    console.log("id ==>", req.params.id);
     try {
       const result = await QuoteModel.aggregate([
         {
@@ -195,7 +189,6 @@ export class QuotesServices {
         },
       ]);
       const count = result.length;
-      console.log("count", count);
 
       return {
         result,
@@ -223,9 +216,6 @@ export class QuotesServices {
         weight,
       } = req.body;
 
-      console.log("id ==>", req.params.id);
-      console.log("req.body ==>", req.body);
-
       let quoteUpdateResult = null;
       let quoteDetailsUpdateResult = null;
 
@@ -241,8 +231,6 @@ export class QuotesServices {
           },
         }
       );
-
-      console.log("quoteUpdateResult : ", quoteUpdateResult);
 
       quoteDetailsUpdateResult = await QuoteDetailsModel.updateOne(
         {
@@ -261,7 +249,7 @@ export class QuotesServices {
           },
         }
       );
-      console.log("quoteDetailsUpdateResult : ", quoteDetailsUpdateResult);
+
       return {
         quoteUpdateResult,
         quoteDetailsUpdateResult,
@@ -274,8 +262,6 @@ export class QuotesServices {
 
   async deleteQuoteById(req) {
     try {
-      console.log("req.params.id :", req.params.id);
-
       const quoteUpdateResult = await QuoteModel.updateOne(
         { _id: req.params.id },
         {
@@ -284,8 +270,6 @@ export class QuotesServices {
           },
         }
       );
-
-      console.log("quoteUpdateResult for delete :", quoteUpdateResult);
 
       const quoteDetailsUpdateResult = await QuoteDetailsModel.updateOne(
         { quoteId: req.params.id },
@@ -313,14 +297,9 @@ export class QuotesServices {
   async getlanlet(req) {
     try {
       const { from, to } = req.params;
-      console.log("from", from, "to", to);
-      console.log("from is coming or not ", from);
 
       const result = await QuoteDetailsModel.findOne({ from, to });
 
-      if (result) {
-        console.log("result of ger latitude", result);
-      }
       return result;
     } catch (error) {
       console.error("Error fetching coordinates:", error.message);

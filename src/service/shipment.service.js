@@ -50,7 +50,6 @@ export class ShipmentServices {
         billToOption,
         created_by,
       } = req?.body;
-      console.log("req.body==========>", req?.body);
 
       const addNew = await ShipmentModel({
         shipmentdate: shipmentdate,
@@ -89,7 +88,6 @@ export class ShipmentServices {
         bill_to_id: senderInfo,
         created_by: created_by,
       });
-      console.log("addNew ==========>", addNew);
 
       const shipmentVendorDetails = await ShipmentVendorDetailsModel({
         shipmentId: addNew._id,
@@ -102,16 +100,13 @@ export class ShipmentServices {
         created_by: created_by,
       });
 
-      console.log("shipmentVendorDetails ==========>", shipmentVendorDetails);
       await shipmentVendorDetails.save();
 
       const data = await ShipmentPackageModel.find({ shipmentId: addNew._id });
-      console.log("data =====>", data);
 
       const data1 = await ShipmentInsuranceModel.find({
         shipmentId: addNew._id,
       });
-      console.log("data1 ====>", data1);
 
       if (data.length === 0 && data1.length === 0) {
         await ShipmentPackageModel.updateMany(
@@ -124,7 +119,7 @@ export class ShipmentServices {
           { $set: { shipmentId: addNew._id } }
         );
       }
-      console.log("data =====>", data);
+
       await addNew.save();
 
       return addNew;
@@ -167,8 +162,6 @@ export class ShipmentServices {
         created_by,
         shipmentId,
       });
-
-      console.log("New package to be added:", addNew);
 
       return await addNew.save();
     } catch (error) {
@@ -229,8 +222,6 @@ export class ShipmentServices {
         shipmentId,
         created_by,
       });
-
-      console.log("New insurance to be added:", addNew);
 
       return await addNew.save();
     } catch (error) {
@@ -484,7 +475,6 @@ export class ShipmentServices {
           },
         },
       ]);
-      console.log("result ---- :", result);
 
       return result;
     } catch (error) {
@@ -540,9 +530,6 @@ export class ShipmentServices {
         created_by,
       } = req?.body;
 
-      console.log("req.body==========>", req.body);
-      console.log(package_pickup_address);
-
       const existingShipment = await ShipmentModel.findById(_id);
       if (!existingShipment) throw new Error("Shipment not found");
 
@@ -576,7 +563,6 @@ export class ShipmentServices {
         remarks,
         bill_to: billToOption,
       };
-      console.log("sender Idddddddddddddddddd", senderId);
 
       // Apply updates to fields
       for (const field in fieldsToUpdate) {
@@ -609,7 +595,6 @@ export class ShipmentServices {
         shipment: existingShipment,
       };
     } catch (error) {
-      console.error("Error updating shipment:", error);
       throw new Error("An error occurred while updating the shipment");
     }
   }
@@ -617,11 +602,6 @@ export class ShipmentServices {
     try {
       const result = await UserModel.find({ role: "Customer" });
 
-      if (result) {
-        console.log("data is coming", result);
-      } else {
-        console.log("something rong");
-      }
       return result;
     } catch (error) {
       console.error("Error fetching sender names:", error);
@@ -638,7 +618,6 @@ export class ShipmentServices {
           },
         }
       );
-      console.log("deleted data", shipmentUpdateResult);
 
       return shipmentUpdateResult;
     } catch {
@@ -650,13 +629,6 @@ export class ShipmentServices {
     try {
       const result = await ShipmentModel.find();
       const total = result?.length || 0;
-
-      if (result?.length > 0) {
-        console.log("Data is coming:", result);
-      } else {
-        console.log("No data found.");
-      }
-
       return total;
     } catch (error) {
       console.error("Error fetching shipments:", error);

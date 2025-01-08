@@ -8,8 +8,6 @@ export class PriceController {
   async add(req, res) {
     try {
       const result = await priceservices.addPrice(req);
-      console.log("result====>", result);
-
       return sendResponse(res, responseCode.CREATED, result);
     } catch (error) {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
@@ -18,7 +16,6 @@ export class PriceController {
 
   async getAllPrices(req, res) {
     try {
-      // const result = await priceservices.getAllPrices(req);
       return sendResponse(
         res,
         responseCode.OK,

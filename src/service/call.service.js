@@ -3,8 +3,6 @@ import CallModel from "../model/call.model.js";
 
 export class CallServices {
   async addCall(req) {
-    console.log("req.params.id  ===>", req.params.id);
-
     try {
       const { duration, feedback, customer, created_by } = req?.body;
 
@@ -14,7 +12,7 @@ export class CallServices {
         customerId: customer,
         created_by: created_by,
       });
-      console.log("newCall ==================>", newCall);
+
       return await newCall.save();
     } catch (error) {
       console.error(error);
@@ -23,8 +21,6 @@ export class CallServices {
   }
 
   async getAllCalls(req) {
-    console.log("req.params.id===>", req.params.id);
-
     try {
       const result = await CallModel.aggregate([
         {
@@ -56,7 +52,6 @@ export class CallServices {
           },
         },
       ]);
-      console.log("result ==============>", result);
 
       return result;
     } catch (error) {

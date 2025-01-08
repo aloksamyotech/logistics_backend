@@ -4,8 +4,6 @@ import VendorExpenseModel from "../model/vendorExpense.model.js";
 export class VendorExpenseServices {
   async addVendorExpense(req) {
     try {
-      console.log("req?.body ====>", req?.body);
-
       const { name, amount, note, vendorId, created_by } = req?.body;
 
       const addNew = await VendorExpenseModel({
@@ -15,7 +13,6 @@ export class VendorExpenseServices {
         vendorId: new mongoose.Types.ObjectId(vendorId),
         created_by: created_by,
       });
-      console.log("addNew ==========>", addNew);
 
       return await addNew.save();
     } catch (error) {
@@ -55,7 +52,7 @@ export class VendorExpenseServices {
           },
         },
       ]);
-      console.log("result ============>", result);
+
       return result;
     } catch (error) {
       console.error(error);
@@ -94,7 +91,7 @@ export class VendorExpenseServices {
           },
         },
       ]);
-      console.log("result aya  ============>", result);
+
       return result;
     } catch (error) {
       console.error(error);
@@ -115,7 +112,7 @@ export class VendorExpenseServices {
           },
         }
       );
-      console.log("result ============>", result);
+
       return result;
     } catch (error) {
       console.error(error);
@@ -133,7 +130,7 @@ export class VendorExpenseServices {
           },
         }
       );
-      console.log("result ============>", result);
+
       return result;
     } catch (error) {
       console.error(error);

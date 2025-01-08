@@ -12,8 +12,6 @@ export class WeightPriceServices {
         created_by,
       });
 
-      console.log("New Weight Price Entry =====>", newWeightPrice);
-
       return await newWeightPrice.save();
     } catch (error) {
       console.error("Error in addWeightPrice:", error);
@@ -27,7 +25,6 @@ export class WeightPriceServices {
         created_by: req.params.id,
         deleted: false,
       });
-      console.log("Weight Price Records ==>", result);
 
       return result;
     } catch (error) {
@@ -51,8 +48,6 @@ export class WeightPriceServices {
         }
       );
 
-      console.log("Weight Price Update Result ==>", result);
-
       return result;
     } catch (error) {
       console.error("Error in updateWeightPrice:", error);
@@ -62,16 +57,12 @@ export class WeightPriceServices {
 
   async deleteWeightPrice(req) {
     try {
-      console.log("Request ID to delete ==>", req.params.id);
-
       const result = await weightPriceModel.findByIdAndUpdate(
         { _id: req.params.id },
         {
           $set: { deleted: true },
         }
       );
-
-      console.log("Weight Price Deletion Result ==>", result);
 
       return result;
     } catch (error) {

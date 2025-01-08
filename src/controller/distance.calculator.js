@@ -8,8 +8,6 @@ export const getRouteDistance = async (from, to, mode = "driving-car") => {
   try {
     const fromCoords = await getCoordinates(from);
     const toCoords = await getCoordinates(to);
-    console.log("from distance", fromCoords);
-    console.log("to location", toCoords);
 
     const url = `https://api.openrouteservice.org/v2/directions/${mode}?api_key=${OPENROUTESERVICE_API_KEY}`;
 
@@ -28,9 +26,6 @@ export const getRouteDistance = async (from, to, mode = "driving-car") => {
     if (route) {
       const distance = route?.summary?.distance;
       const distanceInKilometers = distance / 1000;
-      console.log("distance which is coming", distanceInKilometers, distance);
-
-      // Convert to kilometers
       const distanceInMiles = distanceInKilometers * 0.621371;
 
       return { distanceInKilometers, distanceInMiles };
@@ -47,8 +42,6 @@ const calculateDistance = async (req, res) => {
   const { from, to, mode } = req.body;
   try {
     const distance = await getRouteDistance(from, to, mode || "driving-car");
-    console.log("distance is ====>", distance);
-
     res.json(distance);
   } catch (error) {
     res
