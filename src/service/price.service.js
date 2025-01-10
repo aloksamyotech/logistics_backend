@@ -99,7 +99,8 @@ export class PriceServices {
         throw new Error("No price found for the given weight.");
       }
 
-      const totalPrice = distancePrice.lcvrate + weightPrice.price;
+      const totalPrice =
+        distancePrice.lcvrate + weightPrice.price + distancePrice.opentruckrate;
 
       return {
         distancePrice: distancePrice.lcvrate,

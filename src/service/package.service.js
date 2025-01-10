@@ -6,7 +6,6 @@ export class ShipmentPackageServices {
       const { description, invoiceNumber, size, weight, quantity, value } =
         req?.body;
       let { pack } = req.params.id;
-      console.log("id", pack);
 
       const addNew = await ShipmentPackageModel({
         description: description,
@@ -16,8 +15,6 @@ export class ShipmentPackageServices {
         quantity: quantity,
         value: value,
       });
-
-      console.log("addNew =====>", addNew);
 
       return await addNew.save();
     } catch (error) {
