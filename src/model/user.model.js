@@ -4,7 +4,7 @@ import { Schema } from "mongoose";
 
 const userSchema = new Schema({
   ...BaseSchema.obj,
-  email: { type: String, required: true },
+  email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   name: { type: String, required: true },
   companyname: { type: String, default: null },

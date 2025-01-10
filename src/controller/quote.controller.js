@@ -18,6 +18,7 @@ export class QuotesController {
   async addQuoteDetails(req, res) {
     try {
       const result = await quoteservices.addQuoteDetails(req);
+      console.log("result is:", result);
       return sendResponse(res, responseCode.CREATED, result);
     } catch (error) {
       return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);

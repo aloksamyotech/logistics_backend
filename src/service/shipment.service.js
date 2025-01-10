@@ -333,7 +333,7 @@ export class ShipmentServices {
       // const resultt = result.length;
       // console.log("length ", resultt);
 
-      // console.log("result :", result);
+      console.log("result  okkkkk :", result);
       return result;
     } catch (error) {
       console.error(error);
@@ -347,7 +347,7 @@ export class ShipmentServices {
         {
           $match: {
             _id: new mongoose.Types.ObjectId(req.params.id),
-            deleted: true,
+            deleted: false,
           },
         },
         {
@@ -359,7 +359,7 @@ export class ShipmentServices {
           },
         },
         {
-          $unwind: "$customerdata1",
+          $unwind: { path: "$customerdata1", preserveNullAndEmptyArrays: true },
         },
         {
           $lookup: {
@@ -370,7 +370,7 @@ export class ShipmentServices {
           },
         },
         {
-          $unwind: "$customerdata2",
+          $unwind: { path: "$customerdata2", preserveNullAndEmptyArrays: true },
         },
         {
           $lookup: {
@@ -381,7 +381,7 @@ export class ShipmentServices {
           },
         },
         {
-          $unwind: "$packagedata",
+          $unwind: { path: "$packagedata", preserveNullAndEmptyArrays: true },
         },
         {
           $lookup: {
@@ -392,7 +392,7 @@ export class ShipmentServices {
           },
         },
         {
-          $unwind: "$insurancedata",
+          $unwind: { path: "$insurancedata", preserveNullAndEmptyArrays: true },
         },
         {
           $lookup: {
@@ -403,7 +403,7 @@ export class ShipmentServices {
           },
         },
         {
-          $unwind: "$vendordata",
+          $unwind: { path: "$vendordata", preserveNullAndEmptyArrays: true },
         },
         {
           $lookup: {
@@ -414,25 +414,21 @@ export class ShipmentServices {
           },
         },
         {
-          $unwind: "$data",
+          $unwind: { path: "$data", preserveNullAndEmptyArrays: true },
         },
-
         {
           $project: {
             shipmentdate: 1,
             expectedDeliveryDate: 1,
             deliveryAddress: 1,
-
             package_pickup_address: 1,
             package_contact_person_name: 1,
             package_contact_person_phone: 1,
             package_transaction_type: 1,
-
             transport_driver_name: 1,
             transport_driver_phone: 1,
             transport_driver_vehicledetails: 1,
             usernote: 1,
-
             charge_transportation: 1,
             charge_handling: 1,
             charge_halting: 1,
@@ -443,45 +439,41 @@ export class ShipmentServices {
             charge_tax_percent: 1,
             charge_advance_paid: 1,
             discount: 1,
-
             total_tax: 1,
             total_amount: 1,
             total_balance: 1,
-
             "customerdata1.name": 1,
             "customerdata2.name": 1,
             "customerdata1.phoneno": 1,
             "customerdata2.phoneno": 1,
-
             "packagedata.invoiceNumber": 1,
             "packagedata.size": 1,
             "packagedata.weight": 1,
             "packagedata.quantity": 1,
             "packagedata.value": 1,
             "packagedata.description": 1,
-
             "insurancedata.eway_bill": 1,
             "insurancedata.insurance_no": 1,
             "insurancedata.insurance_agent": 1,
-
             "vendordata.memoNumber": 1,
             "vendordata.commission": 1,
             "vendordata.cash": 1,
             "vendordata.total": 1,
             "vendordata.advance": 1,
-
             "data.name": 1,
             "data.phoneno": 1,
           },
         },
       ]);
 
+      console.log("result bring or not", result);
       return result;
     } catch (error) {
-      console.error(error);
+      console.error("Error in fetching shipment details:", error);
       throw error;
     }
   }
+
   async updateShipment(req) {
     try {
       const _id = req.params.id;

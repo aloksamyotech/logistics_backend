@@ -38,8 +38,11 @@ export class userServices extends HelperModules {
 
       return await user.save();
     } catch (error) {
-      console.log("Error Found =======>", error);
-      throw error;
+      if (error.code === 11000 && error.keyPattern?.email) {
+        throw new Error(
+          `The email ${error.keyValue?.email} is already registered.`
+        );
+      }
     }
   }
 

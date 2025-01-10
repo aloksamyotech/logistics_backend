@@ -190,10 +190,7 @@ export class QuotesServices {
       ]);
       const count = result.length;
 
-      return {
-        result,
-        count,
-      };
+      return result;
     } catch (error) {
       console.error(error);
       throw error;

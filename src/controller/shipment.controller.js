@@ -61,6 +61,7 @@ export class ShipmentController {
       console.log(dd);
 
       const result = await shipmentservices.getShipmentAllDetailsById(req);
+      console.log(result);
 
       return sendResponse(res, responseCode.OK, result);
     } catch (error) {

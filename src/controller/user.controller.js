@@ -9,10 +9,14 @@ export class UserController {
   async add(req, res) {
     try {
       const result = await userservices.addUser(req);
-      return sendResponse(res, responseCode.CREATED, result);
+      return res
+        .status(201)
+        .json({ message: "User added successfully", user: result });
     } catch (error) {
-      console.error(error);
-      return sendResponse(res, responseCode.INTERNAL_SERVER_ERROR, null, error);
+      if (error.message.includes("already registered")) {
+        return res.status(409).json({ error: "Email already exists" });
+      }
+      return res.status(500).json({ error: "Internal server error" });
     }
   }
 
