@@ -556,7 +556,6 @@ export class ShipmentServices {
         bill_to: billToOption,
       };
 
-      // Apply updates to fields
       for (const field in fieldsToUpdate) {
         if (fieldsToUpdate[field])
           existingShipment[field] = fieldsToUpdate[field];

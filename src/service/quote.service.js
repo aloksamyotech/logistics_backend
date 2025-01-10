@@ -128,7 +128,7 @@ export class QuotesServices {
           },
         },
       ]);
-      // console.log("result ============>", result.length);
+
       const count = result.length;
       console.log(count);
 

@@ -46,10 +46,8 @@ export const getCoordinates = async (location) => {
       throw new Error("Failed to fetch location data. Please try again later.");
     } else if (error.request) {
       console.error("Network Error: No response received from the API.");
-      throw new Error("Network error occurred while fetching location data.");
     } else {
       console.error(`Unexpected Error: ${error.message}`);
-      throw new Error("An unexpected error occurred. Please contact support.");
     }
   }
 };
